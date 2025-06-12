@@ -1,7 +1,7 @@
 # ForgotCMD
 
 **A web-based command cheat sheet for hackers, red teamers, sysadmins, and developers.**  
-Never forget a CLI command again — from privilege escalation to Docker tricks, it's all here.
+Never forget a CLI command again — from privilege escalation to Docker tricks, it's all here. 
 
 ---
 
@@ -23,12 +23,10 @@ Never forget a CLI command again — from privilege escalation to Docker tricks,
 
 ## 🛠️ Setup
 
-If you're using a bundler or frontend toolchain:
-
 ```bash
-git clone https://github.com/yourusername/forgotcmd.git
-cd forgotcmd
-pip3 install requirements.txt
+git clone https://github.com/Mikivirus0/ForgotCMD
+cd ForgotCMD
+pip3 install -r requirements.txt
 python3 app.py
 ```
 ---
