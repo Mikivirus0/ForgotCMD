@@ -1,0 +1,91 @@
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes typing {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes glow-pulse {
+  0% { 
+      text-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
+      box-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
+  }
+  100% { 
+      text-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
+      box-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
+  }
+}
+
+body {
+  background: 
+      radial-gradient(circle at 25% 25%, rgba(248, 113, 113, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, rgba(77, 208, 225, 0.1) 0%, transparent 50%),
+      linear-gradient(135deg, #000000 0%, #0a0000 25%, #000000 50%, #000a0a 75%, #000000 100%);
+  min-height: 100vh;
+}
+
+.cyber-grid {
+  background-image: 
+      linear-gradient(rgba(248, 113, 113, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(248, 113, 113, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.search-container {
+  background: linear-gradient(135deg, 
+      rgba(248, 113, 113, 0.1) 0%, 
+      rgba(0, 0, 0, 0.8) 25%, 
+      rgba(77, 208, 225, 0.1) 100%);
+  backdrop-filter: blur(20px);
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #f87171, #4dd0e1, #f87171) 1;
+}
+
+.command-card {
+  background: linear-gradient(135deg, 
+      rgba(15, 0, 0, 0.95) 0%, 
+      rgba(0, 15, 15, 0.9) 50%, 
+      rgba(15, 0, 0, 0.95) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(248, 113, 113, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.command-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: #f87171;
+  box-shadow: 
+      0 20px 40px rgba(248, 113, 113, 0.3),
+      0 0 0 1px rgba(248, 113, 113, 0.5),
+      inset 0 0 20px rgba(248, 113, 113, 0.1);
+}
+
+.terminal-window {
+  background: #000000;
+  border: 1px solid #333;
+  position: relative;
+}
+
+.terminal-window::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(90deg, #333, #555, #333);
+  border-bottom: 1px solid #555;
+}
+
+.terminal-dots::before {
+  content: '● ● ●';
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  color: #f87171;
+  font-size: 12px;
+  letter-spacing: 4px;
+}

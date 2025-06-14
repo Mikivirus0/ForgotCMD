@@ -1,0 +1,262 @@
+{{ define "main" }}
+
+
+<div class="cyber-grid min-h-screen flex flex-col">
+  <!-- Particles/Stars Background Effect -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-red-400 rounded-full animate-ping"></div>
+      <div class="absolute top-3/4 right-1/4 w-1 h-1 bg-teal-400 rounded-full animate-ping" style="animation-delay: 1s;"></div>
+      <div class="absolute top-1/2 left-3/4 w-1 h-1 bg-red-400 rounded-full animate-ping" style="animation-delay: 2s;"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="relative z-10 flex-1 flex flex-col justify-center items-center px-6 py-12">
+      
+      <!-- Header Section -->
+      <div class="text-center max-w-4xl px-8">
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight hover:-translate-y-1 transition-transform duration-300">
+              <span class="text-red-400 font-mono font-semibold">Forgot</span><span class="text-teal-400 font-mono font-semibold">CMD</span>
+          </h1>
+          <div class="h-0.5 w-20 bg-gradient-to-r from-transparent via-teal-400 to-transparent mx-auto mb-8"></div>
+          <p class="text-lg text-slate-400 max-w-lg mx-auto leading-relaxed">
+              your last braincell's backup.
+          </p>
+      </div>
+      
+      <!-- Search Section -->
+      <div class="w-full max-w-5xl mb-16">
+          <div class="search-container rounded-2xl p-8 shadow-2xl">
+              <div class="relative">
+                  <div class="absolute -top-4 left-6 text-sm text-red-400 font-mono bg-black px-2">
+                      COMMAND_SEARCH.exe
+                  </div>
+                  <input 
+                      type="text" 
+                      id="searchInput" 
+                      class="w-full bg-black text-teal-400 text-2xl md:text-3xl px-8 py-8 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono tracking-wide transition-all duration-300 focus:shadow-neon-red" 
+                      placeholder="root@forgotcmd:~# enter_command_here"
+                      autocomplete="off"
+                  >
+                  <div class="absolute right-8 top-1/2 transform -translate-y-1/2 text-red-400 text-3xl font-mono">
+                      <span class="animate-typing">█</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Results Container -->
+      <div id="results" class="w-full max-w-7xl space-y-8"></div>
+      
+      <!-- Empty State -->
+      <div id="emptyState" class="text-center text-gray-400 mt-12">
+          <p class="text-xl mb-8 text-gray-300">Instantly search and discover CLI commands, syntax, and usage — from shell basics to red team tactics.</p>
+          
+          <!-- Popular Commands Grid -->
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+              <div class="bg-gradient-to-br from-red-400/20 to-red-500/10 px-6 py-4 rounded-xl border border-red-400/30 hover:border-red-400 hover:shadow-neon-red transition-all cursor-pointer hover:scale-105">
+                  <div class="text-2xl mb-2">🔍</div>
+                  <div class="text-lg font-semibold text-red-400">nmap</div>
+                  <div class="text-sm text-gray-400">Network Scanner</div>
+              </div>
+              <div class="bg-gradient-to-br from-teal-400/20 to-teal-500/10 px-6 py-4 rounded-xl border border-teal-400/30 hover:border-teal-400 hover:shadow-neon-teal transition-all cursor-pointer hover:scale-105">
+                  <div class="text-2xl mb-2">🌐</div>
+                  <div class="text-lg font-semibold text-teal-400">netcat</div>
+                  <div class="text-sm text-gray-400">Swiss Army Knife</div>
+              </div>
+              <div class="bg-gradient-to-br from-red-400/20 to-red-500/10 px-6 py-4 rounded-xl border border-red-400/30 hover:border-red-400 hover:shadow-neon-red transition-all cursor-pointer hover:scale-105">
+                  <div class="text-2xl mb-2">💉</div>
+                  <div class="text-lg font-semibold text-red-400">sqlmap</div>
+                  <div class="text-sm text-gray-400">SQL Injection</div>
+              </div>
+              <div class="bg-gradient-to-br from-teal-400/20 to-teal-500/10 px-6 py-4 rounded-xl border border-teal-400/30 hover:border-teal-400 hover:shadow-neon-teal transition-all cursor-pointer hover:scale-105">
+                  <div class="text-2xl mb-2">🔐</div>
+                  <div class="text-lg font-semibold text-teal-400">hydra</div>
+                  <div class="text-sm text-gray-400">Brute Force</div>
+              </div>
+              <div class="bg-gradient-to-br from-red-400/20 to-red-500/10 px-6 py-4 rounded-xl border border-red-400/30 hover:border-red-400 hover:shadow-neon-red transition-all cursor-pointer hover:scale-105">
+                  <div class="text-2xl mb-2">🚀</div>
+                  <div class="text-lg font-semibold text-red-400">metasploit</div>
+                  <div class="text-sm text-gray-400">Exploit Framework</div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- Footer -->
+<footer class="relative z-10 mt-auto">
+<div class="py-8 px-6 text-center">
+  <div class="flex items-center justify-center space-x-2 text-gray-400">
+      <span class="text-sm font-mono">Developed by</span>
+      <a href="https://mikivirus.me" target="_blank" rel="noopener noreferrer" class="text-red-400 font-mono font-semibold tracking-wide hover:text-teal-400 transition-colors duration-300 cursor-pointer">
+          MikiVirus
+      </a>
+  </div>
+</div>  
+
+<script>
+  const toolsData = JSON.parse({{ .Site.Data.commands | jsonify }});
+  const searchInput = document.getElementById('searchInput');
+  const resultsContainer = document.getElementById('results');
+  const emptyState = document.getElementById('emptyState');
+
+  // Flatten data into searchable array
+  const commands = [];
+  for (const tool in toolsData) {
+    toolsData[tool].forEach(item => {
+      commands.push({
+        ...item,
+        tool
+      });
+    });
+  }
+
+  const fuse = new Fuse(commands, {
+    keys: ['command', 'description', 'tool'],
+    threshold: 0.3,
+  });
+
+  function displayResults(results) {
+    if (results.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="text-center py-16">
+          <div class="text-6xl mb-4 text-white">🔍</div>
+          <div class="text-gray-300 text-2xl font-semibold mb-2">No Commands Found</div>
+          <div class="text-gray-500 text-lg">Try searching for: nmap, sqlmap, hydra, or metasploit</div>
+        </div>
+      `;
+      emptyState.style.display = 'none';
+      return;
+    }
+
+    emptyState.style.display = 'none';
+
+    const html = results.map((result, index) => `
+      <div class="command-card rounded-2xl p-8 shadow-2xl" style="animation-delay: ${index * 0.1}s;">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="bg-gradient-to-r from-red-400 to-teal-400 text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
+              ${result.item.tool}
+            </span>
+            <div class="h-6 w-px bg-gray-700"></div>
+            <span class="text-gray-400 text-sm font-mono">COMMAND.${index + 1}</span>
+          </div>
+          <button onclick="copyCommand('${escapeHtml(result.item.command)}', this)" 
+                  class="group bg-gradient-to-r from-red-400/80 to-teal-400/80 hover:from-red-400 hover:to-teal-400 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-neon-red transform hover:scale-105 active:scale-95">
+            <span class="flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+              </svg>
+              <span>Copy</span>
+            </span>
+          </button>
+        </div>
+        <div class="terminal-window rounded-xl mb-6 overflow-hidden shadow-lg">
+          <div class="terminal-dots"></div>
+          <div class="pt-8 p-6 bg-black">
+            <div class="flex items-center mb-3">
+              <span class="text-red-400 text-lg font-mono">root@forgotcmd</span>
+              <span class="text-gray-500 text-lg font-mono">:</span>
+              <span class="text-teal-400 text-lg font-mono">~</span>
+              <span class="text-gray-500 text-lg font-mono">$</span>
+            </div>
+            <div class="text-teal-400 text-xl font-mono leading-relaxed break-all font-medium">
+              ${escapeHtml(result.item.command)}
+            </div>
+          </div>
+        </div>
+        <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-6 border border-gray-700">
+          <h3 class="text-white text-lg font-semibold mb-3 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+            </svg>
+            Description
+          </h3>
+          <p class="text-gray-300 text-lg leading-relaxed">
+            ${escapeHtml(result.item.description)}
+          </p>
+        </div>
+      </div>
+    `).join('');
+
+    resultsContainer.innerHTML = html;
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function copyCommand(command, button) {
+    navigator.clipboard.writeText(command).then(() => {
+      const originalHTML = button.innerHTML;
+      button.innerHTML = `
+        <span class="flex items-center space-x-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span>Copied!</span>
+        </span>
+      `;
+      button.classList.remove('from-red-400/80', 'to-teal-400/80');
+      button.classList.add('from-teal-400', 'to-teal-500');
+      setTimeout(() => {
+        button.innerHTML = originalHTML;
+        button.classList.remove('from-teal-400', 'to-teal-500');
+        button.classList.add('from-red-400/80', 'to-teal-400/80');
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy:', err);
+    });
+  }
+
+  function showEmptyState() {
+    resultsContainer.innerHTML = '';
+    emptyState.style.display = 'block';
+  }
+
+  function searchCommands(query) {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      showEmptyState();
+      return;
+    }
+    const matches = fuse.search(trimmed);
+    displayResults(matches);
+  }
+
+  searchInput.addEventListener('input', () => {
+    searchCommands(searchInput.value);
+  });
+
+  window.addEventListener('load', () => {
+    searchInput.focus();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      searchInput.value = '';
+      showEmptyState();
+      searchInput.focus();
+    }
+    if (e.ctrlKey && e.key === 'k') {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.grid > div')) {
+      const commandDiv = e.target.closest('.grid > div');
+      const commandName = commandDiv.querySelector('.text-lg').textContent;
+      searchInput.value = commandName;
+      searchCommands(commandName);
+      searchInput.focus();
+    }
+  });
+</script>
+
+  
+
+{{ end }}

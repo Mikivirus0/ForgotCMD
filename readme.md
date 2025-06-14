@@ -23,12 +23,34 @@ Never forget a CLI command again — from privilege escalation to Docker tricks,
 
 ## 🛠️ Setup
 
+### Install Hugo (if not already installed)
+
 ```bash
-git clone https://github.com/Mikivirus0/ForgotCMD
-cd ForgotCMD
-pip3 install -r requirements.txt
-python3 app.py
+# macOS (Homebrew)
+brew install hugo
+
+# Ubuntu/Debian
+sudo apt install hugo
+
+# Windows (Scoop)
+scoop install hugo
 ```
+
+### Clone the Repository
+
+```bash
+git clone https://github.com/GopherGhaznix/ForgotCMD.git
+
+cd ForgotCMD
+```
+### Start the Hugo Development Server
+
+```bash
+hugo server --disableFastRender
+```
+
+Then open your browser and go to: [http://localhost:1313](http://localhost:1313)
+
 ---
 
 ## ✍️ Contributing
