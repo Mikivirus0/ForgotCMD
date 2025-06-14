@@ -38,73 +38,73 @@
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
-        
+
         @keyframes typing {
             0%, 50% { opacity: 1; }
             51%, 100% { opacity: 0; }
         }
 
         @keyframes glow-pulse {
-            0% { 
+            0% {
                 text-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
                 box-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
             }
-            100% { 
+            100% {
                 text-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
                 box-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
             }
         }
-        
+
         body {
-            background: 
+            background:
                 radial-gradient(circle at 25% 25%, rgba(248, 113, 113, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 75% 75%, rgba(77, 208, 225, 0.1) 0%, transparent 50%),
                 linear-gradient(135deg, #000000 0%, #0a0000 25%, #000000 50%, #000a0a 75%, #000000 100%);
             min-height: 100vh;
         }
-        
+
         .cyber-grid {
-            background-image: 
+            background-image:
                 linear-gradient(rgba(248, 113, 113, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(248, 113, 113, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
         }
-        
+
         .search-container {
-            background: linear-gradient(135deg, 
-                rgba(248, 113, 113, 0.1) 0%, 
-                rgba(0, 0, 0, 0.8) 25%, 
+            background: linear-gradient(135deg,
+                rgba(248, 113, 113, 0.1) 0%,
+                rgba(0, 0, 0, 0.8) 25%,
                 rgba(77, 208, 225, 0.1) 100%);
             backdrop-filter: blur(20px);
             border: 2px solid;
             border-image: linear-gradient(45deg, #f87171, #4dd0e1, #f87171) 1;
         }
-        
+
         .command-card {
-            background: linear-gradient(135deg, 
-                rgba(15, 0, 0, 0.95) 0%, 
-                rgba(0, 15, 15, 0.9) 50%, 
+            background: linear-gradient(135deg,
+                rgba(15, 0, 0, 0.95) 0%,
+                rgba(0, 15, 15, 0.9) 50%,
                 rgba(15, 0, 0, 0.95) 100%);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(248, 113, 113, 0.5);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         .command-card:hover {
             transform: translateY(-8px) scale(1.02);
             border-color: #f87171;
-            box-shadow: 
+            box-shadow:
                 0 20px 40px rgba(248, 113, 113, 0.3),
                 0 0 0 1px rgba(248, 113, 113, 0.5),
                 inset 0 0 20px rgba(248, 113, 113, 0.1);
         }
-        
+
         .terminal-window {
             background: #000000;
             border: 1px solid #333;
             position: relative;
         }
-        
+
         .terminal-window::before {
             content: '';
             position: absolute;
@@ -115,7 +115,7 @@
             background: linear-gradient(90deg, #333, #555, #333);
             border-bottom: 1px solid #555;
         }
-        
+
         .terminal-dots::before {
             content: '● ● ●';
             position: absolute;
@@ -129,17 +129,14 @@
 </head>
 <body class="font-sans antialiased">
     <div class="cyber-grid min-h-screen flex flex-col">
-        <!-- Particles/Stars Background Effect -->
         <div class="fixed inset-0 overflow-hidden pointer-events-none">
             <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-red-400 rounded-full animate-ping"></div>
             <div class="absolute top-3/4 right-1/4 w-1 h-1 bg-teal-400 rounded-full animate-ping" style="animation-delay: 1s;"></div>
             <div class="absolute top-1/2 left-3/4 w-1 h-1 bg-red-400 rounded-full animate-ping" style="animation-delay: 2s;"></div>
         </div>
 
-        <!-- Main Container -->
         <div class="relative z-10 flex-1 flex flex-col justify-center items-center px-6 py-12">
-            
-            <!-- Header Section -->
+
             <div class="text-center max-w-4xl px-8">
                 <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight hover:-translate-y-1 transition-transform duration-300">
                     <span class="text-red-400 font-mono font-semibold">Forgot</span><span class="text-teal-400 font-mono font-semibold">CMD</span>
@@ -149,18 +146,17 @@
                     your last braincell's backup.
                 </p>
             </div>
-            
-            <!-- Search Section -->
+
             <div class="w-full max-w-5xl mb-16">
                 <div class="search-container rounded-2xl p-8 shadow-2xl">
                     <div class="relative">
                         <div class="absolute -top-4 left-6 text-sm text-red-400 font-mono bg-black px-2">
                             COMMAND_SEARCH.exe
                         </div>
-                        <input 
-                            type="text" 
-                            id="searchInput" 
-                            class="w-full bg-black text-teal-400 text-2xl md:text-3xl px-8 py-8 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono tracking-wide transition-all duration-300 focus:shadow-neon-red" 
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="w-full bg-black text-teal-400 text-2xl md:text-3xl px-8 py-8 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono tracking-wide transition-all duration-300 focus:shadow-neon-red"
                             placeholder="root@forgotcmd:~# enter_command_here"
                             autocomplete="off"
                         >
@@ -170,15 +166,12 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- Results Container -->
+
             <div id="results" class="w-full max-w-7xl space-y-8"></div>
-            
-            <!-- Empty State -->
+
             <div id="emptyState" class="text-center text-gray-400 mt-12">
                 <p class="text-xl mb-8 text-gray-300">Instantly search and discover CLI commands, syntax, and usage — from shell basics to red team tactics.</p>
-                
-                <!-- Popular Commands Grid -->
+
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
                     <div class="bg-gradient-to-br from-red-400/20 to-red-500/10 px-6 py-4 rounded-xl border border-red-400/30 hover:border-red-400 hover:shadow-neon-red transition-all cursor-pointer hover:scale-105">
                         <div class="text-2xl mb-2">🔍</div>
@@ -209,8 +202,7 @@
             </div>
         </div>
 
-        <!-- Footer -->
-<footer class="relative z-10 mt-auto">
+        <footer class="relative z-10 mt-auto">
     <div class="py-8 px-6 text-center">
         <div class="flex items-center justify-center space-x-2 text-gray-400">
             <span class="text-sm font-mono">Developed by</span>
@@ -227,21 +219,21 @@
         const searchInput = document.getElementById('searchInput');
         const resultsContainer = document.getElementById('results');
         const emptyState = document.getElementById('emptyState');
-        
+
         searchInput.addEventListener('input', function() {
             clearTimeout(searchTimeout);
             const query = this.value.trim();
-            
+
             if (query.length === 0) {
                 showEmptyState();
                 return;
             }
-            
+
             searchTimeout = setTimeout(() => {
                 searchCommands(query);
             }, 200);
         });
-        
+
         function searchCommands(query) {
             fetch(`/search?q=${encodeURIComponent(query)}`)
                 .then(response => response.json())
@@ -260,7 +252,7 @@
                     emptyState.style.display = 'none';
                 });
         }
-        
+
         function displayResults(results) {
             if (results.length === 0) {
                 resultsContainer.innerHTML = `
@@ -273,12 +265,11 @@
                 emptyState.style.display = 'none';
                 return;
             }
-            
+
             emptyState.style.display = 'none';
-            
+
             const html = results.map((result, index) => `
                 <div class="command-card rounded-2xl p-8 shadow-2xl" style="animation-delay: ${index * 0.1}s;">
-                    <!-- Header -->
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center space-x-4">
                             <span class="bg-gradient-to-r from-red-400 to-teal-400 text-white px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider shadow-lg">
@@ -287,7 +278,7 @@
                             <div class="h-6 w-px bg-gray-700"></div>
                             <span class="text-gray-400 text-sm font-mono">COMMAND.${index + 1}</span>
                         </div>
-                        <button onclick="copyCommand('${escapeHtml(result.command)}', this)" 
+                        <button onclick="copyCommand('${escapeHtml(result.command)}', this)"
                                 class="group bg-gradient-to-r from-red-400/80 to-teal-400/80 hover:from-red-400 hover:to-teal-400 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:shadow-neon-red transform hover:scale-105 active:scale-95">
                             <span class="flex items-center space-x-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -297,8 +288,7 @@
                             </span>
                         </button>
                     </div>
-                    
-                    <!-- Command Terminal -->
+
                     <div class="terminal-window rounded-xl mb-6 overflow-hidden shadow-lg">
                         <div class="terminal-dots"></div>
                         <div class="pt-8 p-6 bg-black">
@@ -313,8 +303,7 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Description -->
+
                     <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-6 border border-gray-700">
                         <h3 class="text-white text-lg font-semibold mb-3 flex items-center">
                             <svg class="w-5 h-5 mr-2 text-red-400" fill="currentColor" viewBox="0 0 20 20">
@@ -328,15 +317,15 @@
                     </div>
                 </div>
             `).join('');
-            
+
             resultsContainer.innerHTML = html;
         }
-        
+
         function showEmptyState() {
             resultsContainer.innerHTML = '';
             emptyState.style.display = 'block';
         }
-        
+
         function copyCommand(command, button) {
             navigator.clipboard.writeText(command).then(() => {
                 const originalHTML = button.innerHTML;
@@ -350,7 +339,7 @@
                 `;
                 button.classList.remove('from-red-400/80', 'to-teal-400/80', 'hover:from-red-400', 'hover:to-teal-400');
                 button.classList.add('from-teal-400', 'to-teal-500', 'hover:from-teal-500', 'hover:to-teal-600');
-                
+
                 setTimeout(() => {
                     button.innerHTML = originalHTML;
                     button.classList.remove('from-teal-400', 'to-teal-500', 'hover:from-teal-500', 'hover:to-teal-600');
@@ -372,17 +361,17 @@
                 }, 2000);
             });
         }
-        
+
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
-        
+
         window.addEventListener('load', () => {
             searchInput.focus();
         });
-        
+
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 searchInput.value = '';
@@ -395,7 +384,7 @@
                 searchInput.select();
             }
         });
-        
+
         document.addEventListener('click', function(e) {
             if (e.target.closest('.grid > div')) {
                 const commandDiv = e.target.closest('.grid > div');
