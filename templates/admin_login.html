@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - ForgotCMD</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -34,10 +34,10 @@
     </script>
     <style>
         @keyframes glow-pulse {
-            0% { 
+            0% {
                 box-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
             }
-            100% { 
+            100% {
                 box-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
             }
         }
@@ -46,18 +46,18 @@
             0% { transform: translateY(-100vh); }
             100% { transform: translateY(100vh); }
         }
-        
+
         body {
-            background: 
+            background:
                 radial-gradient(circle at 25% 25%, rgba(248, 113, 113, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 75% 75%, rgba(77, 208, 225, 0.1) 0%, transparent 50%),
                 linear-gradient(135deg, #000000 0%, #0a0000 25%, #000000 50%, #000a0a 75%, #000000 100%);
             min-height: 100vh;
             overflow: hidden;
         }
-        
+
         .cyber-grid {
-            background-image: 
+            background-image:
                 linear-gradient(rgba(248, 113, 113, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(248, 113, 113, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -71,11 +71,11 @@
             opacity: 0.7;
             animation: matrix-rain linear infinite;
         }
-        
+
         .login-container {
-            background: linear-gradient(135deg, 
-                rgba(248, 113, 113, 0.1) 0%, 
-                rgba(0, 0, 0, 0.9) 25%, 
+            background: linear-gradient(135deg,
+                rgba(248, 113, 113, 0.1) 0%,
+                rgba(0, 0, 0, 0.9) 25%,
                 rgba(77, 208, 225, 0.1) 100%);
             backdrop-filter: blur(20px);
             border: 2px solid;
@@ -84,12 +84,10 @@
     </style>
 </head>
 <body class="font-sans antialiased">
-    <!-- Matrix Rain Effect -->
     <div id="matrix-container" class="fixed inset-0 pointer-events-none z-0"></div>
 
     <div class="cyber-grid min-h-screen flex items-center justify-center px-6 relative z-10">
         <div class="login-container rounded-2xl p-8 shadow-2xl max-w-md w-full">
-            <!-- Header -->
             <div class="text-center mb-8">
                 <div class="flex items-center justify-center mb-4">
                     <div class="w-16 h-16 bg-gradient-to-br from-red-400 to-teal-400 rounded-full flex items-center justify-center">
@@ -105,7 +103,6 @@
                 <p class="text-gray-400 text-sm font-mono">RESTRICTED_AREA.exe</p>
             </div>
 
-            <!-- Flash Messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     {% for category, message in messages %}
@@ -125,36 +122,35 @@
                 {% endif %}
             {% endwith %}
 
-            <!-- Login Form -->
             <form method="POST" class="space-y-6">
                 <div>
                     <label for="username" class="block text-red-400 text-sm font-mono mb-2">USERNAME</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        class="w-full bg-black text-teal-400 px-4 py-3 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono transition-all duration-300 focus:shadow-neon-red" 
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="w-full bg-black text-teal-400 px-4 py-3 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono transition-all duration-300 focus:shadow-neon-red"
                         placeholder="root"
                         required
                         autocomplete="username"
                     >
                 </div>
-                
+
                 <div>
                     <label for="password" class="block text-red-400 text-sm font-mono mb-2">PASSWORD</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        class="w-full bg-black text-teal-400 px-4 py-3 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono transition-all duration-300 focus:shadow-neon-red" 
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        class="w-full bg-black text-teal-400 px-4 py-3 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono transition-all duration-300 focus:shadow-neon-red"
                         placeholder="••••••••"
                         required
                         autocomplete="current-password"
                     >
                 </div>
 
-                <button 
-                    type="submit" 
+                <button
+                    type="submit"
                     class="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:shadow-neon-red transform hover:scale-105 active:scale-95 font-mono tracking-wider"
                 >
                     <span class="flex items-center justify-center space-x-2">
@@ -166,7 +162,6 @@
                 </button>
             </form>
 
-            <!-- Back to Home -->
             <div class="mt-6 text-center">
                 <a href="{{ url_for('index') }}" class="text-gray-400 hover:text-teal-400 text-sm font-mono transition-colors duration-300">
                     ← Back to ForgotCMD
@@ -180,7 +175,7 @@
         function createMatrixRain() {
             const container = document.getElementById('matrix-container');
             const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-            
+
             for (let i = 0; i < 50; i++) {
                 setTimeout(() => {
                     const char = document.createElement('div');
@@ -190,7 +185,7 @@
                     char.style.animationDuration = (Math.random() * 10 + 10) + 's';
                     char.style.animationDelay = Math.random() * 5 + 's';
                     container.appendChild(char);
-                    
+
                     // Remove element after animation
                     setTimeout(() => {
                         if (char.parentNode) {

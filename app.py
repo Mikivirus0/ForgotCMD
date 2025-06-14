@@ -4,17 +4,25 @@ import os
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = 'your-super-secret-key-change-this' 
+app.secret_key = 'your-super-secret-key-change-this'
 
 ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'forgotcmd123'  
+ADMIN_PASSWORD = 'forgotcmd123'
 
 def load_commands():
     try:
         with open('commands.json', 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        print("Missing File")
+        print("Missing commands.json file. Creating an empty one.")
+        with open('commands.json', 'w') as f:
+            json.dump({}, f)
+        return {}
+    except json.JSONDecodeError:
+        print("Error decoding commands.json. File might be corrupted. Returning empty data.")
+        return {}
+    except Exception as e:
+        print(f"Error loading commands: {e}")
         return {}
 
 def save_commands(data):
@@ -43,12 +51,12 @@ def index():
 @app.route('/search')
 def search():
     query = request.args.get('q', '').lower().strip()
-    
+
     if not query:
         return jsonify([])
-    
+
     results = []
-    
+
     for tool, commands in commands_data.items():
         if query in tool.lower():
             for cmd in commands:
@@ -59,14 +67,14 @@ def search():
                 })
         else:
             for cmd in commands:
-                if (query in cmd['command'].lower() or 
+                if (query in cmd['command'].lower() or
                     query in cmd['description'].lower()):
                     results.append({
                         'tool': tool,
                         'command': cmd['command'],
                         'description': cmd['description']
                     })
-    
+
     return jsonify(results)
 
 @app.route('/admin/login', methods=['GET', 'POST'])
@@ -74,14 +82,14 @@ def admin_login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        
+
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
             session['logged_in'] = True
             flash('Successfully logged in!', 'success')
             return redirect(url_for('admin_dashboard'))
         else:
             flash('Invalid credentials!', 'error')
-    
+
     return render_template('admin_login.html')
 
 @app.route('/admin/logout')
@@ -93,14 +101,15 @@ def admin_logout():
 @app.route('/admin')
 @login_required
 def admin_dashboard():
+
     global commands_data
-    commands_data = load_commands()  
+    commands_data = load_commands()
     return render_template('admin_dashboard.html', commands=commands_data)
 
 @app.route('/admin/api/tools', methods=['GET'])
 @login_required
 def get_tools():
-    return jsonify(list(commands_data.keys()))
+    return jsonify(commands_data)
 
 @app.route('/admin/api/commands/<tool>', methods=['GET'])
 @login_required
@@ -117,22 +126,22 @@ def add_command():
     tool = data.get('tool')
     command = data.get('command')
     description = data.get('description')
-    
+
     if not all([tool, command, description]):
         return jsonify({'success': False, 'message': 'All fields are required'})
-    
+
     if tool not in commands_data:
         commands_data[tool] = []
-    
+
     for cmd in commands_data[tool]:
-        if cmd['command'] == command:
-            return jsonify({'success': False, 'message': 'Command already exists'})
-    
+        if cmd['command'].lower() == command.lower():
+            return jsonify({'success': False, 'message': 'Command already exists in this tool'})
+
     commands_data[tool].append({
         'command': command,
         'description': description
     })
-    
+
     if save_commands(commands_data):
         return jsonify({'success': True, 'message': 'Command added successfully'})
     else:
@@ -145,25 +154,31 @@ def update_command():
     data = request.json
     tool = data.get('tool')
     old_command = data.get('old_command')
-    new_command = data.get('command')
-    new_description = data.get('description')
-    
+    new_command = data.get('new_command')
+    new_description = data.get('new_description')
+
     if not all([tool, old_command, new_command, new_description]):
         return jsonify({'success': False, 'message': 'All fields are required'})
-    
+
     if tool not in commands_data:
         return jsonify({'success': False, 'message': 'Tool not found'})
-    
+
+    found = False
     for cmd in commands_data[tool]:
         if cmd['command'] == old_command:
             cmd['command'] = new_command
             cmd['description'] = new_description
-            if save_commands(commands_data):
-                return jsonify({'success': True, 'message': 'Command updated successfully'})
-            else:
-                return jsonify({'success': False, 'message': 'Failed to save changes'})
-    
-    return jsonify({'success': False, 'message': 'Command not found'})
+            found = True
+            break 
+
+    if found:
+        if save_commands(commands_data):
+            return jsonify({'success': True, 'message': 'Command updated successfully'})
+        else:
+            return jsonify({'success': False, 'message': 'Failed to save changes'})
+    else:
+        return jsonify({'success': False, 'message': 'Command not found in the specified tool'})
+
 
 @app.route('/admin/api/command', methods=['DELETE'])
 @login_required
@@ -172,18 +187,22 @@ def delete_command():
     data = request.json
     tool = data.get('tool')
     command = data.get('command')
-    
+
     if not all([tool, command]):
         return jsonify({'success': False, 'message': 'Tool and command are required'})
-    
+
     if tool not in commands_data:
         return jsonify({'success': False, 'message': 'Tool not found'})
-    
+
+    initial_length = len(commands_data[tool])
     commands_data[tool] = [cmd for cmd in commands_data[tool] if cmd['command'] != command]
-    
+
+    if len(commands_data[tool]) == initial_length: # Command was not found
+        return jsonify({'success': False, 'message': 'Command not found in the specified tool'})
+
     if not commands_data[tool]:
         del commands_data[tool]
-    
+
     if save_commands(commands_data):
         return jsonify({'success': True, 'message': 'Command deleted successfully'})
     else:

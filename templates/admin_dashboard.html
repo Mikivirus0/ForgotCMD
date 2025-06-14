@@ -33,50 +33,50 @@
     </script>
     <style>
         @keyframes glow-pulse {
-            0% { 
+            0% {
                 box-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
             }
-            100% { 
+            100% {
                 box-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
             }
         }
-        
+
         body {
-            background: 
+            background:
                 radial-gradient(circle at 25% 25%, rgba(248, 113, 113, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 75% 75%, rgba(77, 208, 225, 0.1) 0%, transparent 50%),
                 linear-gradient(135deg, #000000 0%, #0a0000 25%, #000000 50%, #000a0a 75%, #000000 100%);
             min-height: 100vh;
         }
-        
+
         .cyber-grid {
-            background-image: 
+            background-image:
                 linear-gradient(rgba(248, 113, 113, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(248, 113, 113, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
         }
-        
+
         .admin-panel {
-            background: linear-gradient(135deg, 
-                rgba(248, 113, 113, 0.1) 0%, 
-                rgba(0, 0, 0, 0.9) 25%, 
+            background: linear-gradient(135deg,
+                rgba(248, 113, 113, 0.1) 0%,
+                rgba(0, 0, 0, 0.9) 25%,
                 rgba(77, 208, 225, 0.1) 100%);
             backdrop-filter: blur(20px);
             border: 2px solid;
             border-image: linear-gradient(45deg, #f87171, #4dd0e1, #f87171) 1;
         }
 
-        .command-card {
-            background: linear-gradient(135deg, 
-                rgba(15, 0, 0, 0.95) 0%, 
-                rgba(0, 15, 15, 0.9) 50%, 
+        .tool-section {
+            background: linear-gradient(135deg,
+                rgba(15, 0, 0, 0.95) 0%,
+                rgba(0, 15, 15, 0.9) 50%,
                 rgba(15, 0, 0, 0.95) 100%);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(248, 113, 113, 0.5);
             transition: all 0.3s ease;
         }
 
-        .command-card:hover {
+        .tool-section:hover {
             border-color: #f87171;
             box-shadow: 0 0 20px rgba(248, 113, 113, 0.3);
         }
@@ -87,9 +87,9 @@
         }
 
         .modal-content {
-            background: linear-gradient(135deg, 
-                rgba(248, 113, 113, 0.1) 0%, 
-                rgba(0, 0, 0, 0.95) 25%, 
+            background: linear-gradient(135deg,
+                rgba(248, 113, 113, 0.1) 0%,
+                rgba(0, 0, 0, 0.95) 25%,
                 rgba(77, 208, 225, 0.1) 100%);
             backdrop-filter: blur(20px);
             border: 2px solid;
@@ -99,7 +99,6 @@
 </head>
 <body class="font-sans antialiased">
     <div class="cyber-grid min-h-screen">
-        <!-- Header -->
         <header class="bg-black/80 backdrop-blur-sm border-b border-red-400/30">
             <div class="max-w-7xl mx-auto px-6 py-4">
                 <div class="flex items-center justify-between">
@@ -112,14 +111,14 @@
                         <span class="text-gray-400 text-sm font-mono">SYSTEM_CONTROL.exe</span>
                     </div>
                     <div class="flex items-center space-x-4">
-                        <button 
-                            onclick="showAddModal()" 
+                        <button
+                            onclick="showAddModal()"
                             class="bg-gradient-to-r from-teal-400 to-red-400 hover:from-teal-500 hover:to-red-500 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-neon-teal transform hover:scale-105 active:scale-95 font-mono text-sm"
                         >
                             + ADD COMMAND
                         </button>
-                        <a 
-                            href="{{ url_for('admin_logout') }}" 
+                        <a
+                            href="{{ url_for('admin_logout') }}"
                             class="bg-red-400/20 hover:bg-red-400/30 text-red-400 font-bold py-2 px-4 rounded-lg transition-all duration-300 border border-red-400/30 hover:border-red-400 font-mono text-sm"
                         >
                             LOGOUT
@@ -129,9 +128,7 @@
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-6 py-8">
-            <!-- Stats -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="admin-panel rounded-xl p-6">
                     <div class="flex items-center">
@@ -146,7 +143,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="admin-panel rounded-xl p-6">
                     <div class="flex items-center">
                         <div class="bg-teal-400/20 p-3 rounded-lg">
@@ -166,96 +163,210 @@
                         </div>
                     </div>
                 </div>
-<div class="admin-panel rounded-xl p-6">
-    <div class="flex items-center">
-        <div class="bg-green-400/20 p-3 rounded-lg">
-            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.104 0 2-.672 2-1.5S13.104 5 12 5s-2 .672-2 1.5S10.896 8 12 8zm0 2c-1.657 0-3 1.343-3 3v1h6v-1c0-1.657-1.343-3-3-3zm0 10c4.418 0 8-3.582 8-8S16.418 4 12 4 4 7.582 4 12s3.582 8 8 8z" />
-            </svg>
-        </div>
-        <div class="ml-4">
-            <p class="text-sm font-mono text-gray-400">CATEGORIES</p>
-            <p class="text-2xl font-bold text-white">
-                {% set cat_total = commands.keys()|length %}
-                {{ cat_total }}
-            </p>
-        </div>
-    </div>
-</div>
+                <div class="admin-panel rounded-xl p-6">
+                    <div class="flex items-center">
+                        <div class="bg-green-400/20 p-3 rounded-lg">
+                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.104 0 2-.672 2-1.5S13.104 5 12 5s-2 .672-2 1.5S10.896 8 12 8zm0 2c-1.657 0-3 1.343-3 3v1h6v-1c0-1.657-1.343-3-3-3zm0 10c4.418 0 8-3.582 8-8S16.418 4 12 4 4 7.582 4 12s3.582 8 8 8z" />
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-mono text-gray-400">CATEGORIES</p>
+                            <p class="text-2xl font-bold text-white">
+                                {% set cat_total = commands.keys()|length %}
+                                {{ cat_total }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Commands List -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="commandsList">
-                <!-- Commands will be dynamically loaded here -->
-            </div>
+            <div id="commandsList" class="space-y-6">
+                </div>
         </main>
     </div>
 
-    <!-- Add Command Modal -->
-    <div id="addCommandModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div id="addCommandModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden modal z-50">
         <div class="modal-content bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
             <h2 class="text-xl font-bold text-white mb-4">Add New Command</h2>
             <form id="addCommandForm">
                 <div class="mb-4">
-                    <label for="toolInput" class="block text-sm font-medium text-gray-300">Tool Name</label>
-                    <input type="text" id="toolInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white" required>
+                    <label for="addToolInput" class="block text-sm font-medium text-gray-300">Tool Name</label>
+                    <input type="text" id="addToolInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white" required>
                 </div>
                 <div class="mb-4">
-                    <label for="commandInput" class="block text-sm font-medium text-gray-300">Command</label>
-                    <input type="text" id="commandInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white" required>
+                    <label for="addCommandInput" class="block text-sm font-medium text-gray-300">Command</label>
+                    <input type="text" id="addCommandInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white" required>
                 </div>
                 <div class="mb-4">
-                    <label for="descriptionInput" class="block text-sm font-medium text-gray-300">Description</label>
-                    <textarea id="descriptionInput" rows="3" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white"></textarea>
+                    <label for="addDescriptionInput" class="block text-sm font-medium text-gray-300">Description</label>
+                    <textarea id="addDescriptionInput" rows="3" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white"></textarea>
                 </div>
                 <div class="flex justify-end space-x-2">
                     <button type="button" onclick="hideAddModal()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Cancel</button>
-                    <button type="button" id="addCommandBtn" class="bg-gradient-to-r from-teal-400 to-red-400 hover:from-teal-500 hover:to-red-500 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Add Command</button>
+                    <button type="submit" id="addCommandBtn" class="bg-gradient-to-r from-teal-400 to-red-400 hover:from-teal-500 hover:to-red-500 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Add Command</button>
                 </div>
             </form>
-
         </div>
-        <button onclick="hideAddModal()" class="absolute top-2 right-2 text-gray-400 hover:text-white">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
     </div>
+
+    <div id="editCommandModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden modal z-50">
+        <div class="modal-content bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-xl font-bold text-white mb-4">Edit Command</h2>
+            <form id="editCommandForm">
+                <input type="hidden" id="editOriginalTool">
+                <input type="hidden" id="editOriginalCommand">
+                <div class="mb-4">
+                    <label for="editToolInput" class="block text-sm font-medium text-gray-300">Tool Name (Cannot be changed)</label>
+                    <input type="text" id="editToolInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white cursor-not-allowed" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="editCommandInput" class="block text-sm font-medium text-gray-300">Command</label>
+                    <input type="text" id="editCommandInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white" required>
+                </div>
+                <div class="mb-4">
+                    <label for="editDescriptionInput" class="block text-sm font-medium text-gray-300">Description</label>
+                    <textarea id="editDescriptionInput" rows="3" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white"></textarea>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="hideEditModal()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Cancel</button>
+                    <button type="submit" id="updateCommandBtn" class="bg-gradient-to-r from-teal-400 to-red-400 hover:from-teal-500 hover:to-red-500 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Update Command</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="deleteConfirmModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden modal z-50">
+        <div class="modal-content bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-xl font-bold text-white mb-4">Confirm Deletion</h2>
+            <p class="text-gray-300 mb-6">Are you sure you want to delete the command "<span id="deleteCommandName" class="font-mono text-teal-400"></span>" from tool "<span id="deleteToolName" class="font-mono text-red-400"></span>"?</p>
+            <input type="hidden" id="deleteToolHidden">
+            <input type="hidden" id="deleteCommandHidden">
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="hideDeleteModal()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Cancel</button>
+                <button type="button" id="confirmDeleteBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Delete</button>
+            </div>
+        </div>
+    </div>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    fetchCommands();
+    fetchCommandsAndRender();
 
-    document.getElementById("addCommandBtn").addEventListener("click", addCommand);
+    // Event listeners for form submissions
+    document.getElementById("addCommandForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        addCommand();
+    });
+    document.getElementById("editCommandForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        updateCommand();
+    });
+    document.getElementById("confirmDeleteBtn").addEventListener("click", deleteCommand);
 });
 
-async function fetchCommands() {
-    const res = await fetch("/admin/api/tools");
-    const tools = await res.json();
+async function fetchCommandsAndRender() {
+    try {
+        const res = await fetch("/admin/api/tools"); // This now returns {tool1: [cmds], tool2: [cmds]}
+        if (!res.ok) throw new Error("Not authorized or API failed.");
+        const toolsData = await res.json(); // { "ToolName": [{ "command": "...", "description": "..." }] }
 
-    const commandsContainer = document.getElementById("commandsList");
-    commandsContainer.innerHTML = '';
+        const commandsContainer = document.getElementById("commandsList");
+        commandsContainer.innerHTML = ''; // Clear previous commands
 
-    for (const tool of tools) {
-        const resCmds = await fetch(`/admin/api/commands/${tool}`);
-        const commands = await resCmds.json();
+        let totalCommands = 0;
+        let totalTools = Object.keys(toolsData).length;
 
-        commands.forEach(cmd => {
-            const el = document.createElement("div");
-            el.classList.add("command-card", "p-4", "rounded-lg", "mb-4", "text-white");
-            el.innerHTML = `
-                <h3 class="font-bold text-lg">${tool}</h3>
-                <p class="text-sm font-mono text-gray-300">${cmd.command}</p>
-                <p class="text-xs text-gray-400">${cmd.description}</p>
+        // Sort tools alphabetically for consistent display
+        const sortedToolNames = Object.keys(toolsData).sort();
+
+        for (const toolName of sortedToolNames) {
+            const commands = toolsData[toolName];
+            totalCommands += commands.length;
+
+            const toolSection = document.createElement("div");
+            toolSection.classList.add("tool-section", "rounded-xl", "p-6", "mb-6", "text-white");
+            toolSection.innerHTML = `
+                <div class="flex items-center justify-between cursor-pointer" onclick="toggleToolSection(this)">
+                    <h2 class="text-2xl font-bold text-teal-400">${toolName} (${commands.length} commands)</h2>
+                    <svg class="w-6 h-6 text-gray-400 transform transition-transform duration-300" data-toggle-icon="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                <div class="commands-grid mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
+                    </div>
             `;
-            commandsContainer.appendChild(el);
-        });
+            commandsContainer.appendChild(toolSection);
+
+            const commandsGrid = toolSection.querySelector('.commands-grid');
+
+            commands.forEach(cmd => {
+                const commandCard = document.createElement("div");
+                commandCard.classList.add("command-card", "p-4", "rounded-lg", "text-white", "flex", "flex-col", "justify-between");
+                commandCard.innerHTML = `
+                    <div>
+                        <p class="text-lg font-mono text-gray-300 break-all">${cmd.command}</p>
+                        <p class="text-sm text-gray-400 mt-2">${cmd.description}</p>
+                    </div>
+                    <div class="flex space-x-2 mt-4">
+                        <button onclick="showEditModal('${toolName}', '${escapeHtml(cmd.command)}', '${escapeHtml(cmd.description)}')"
+                                class="flex-1 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 font-bold py-2 px-3 rounded-lg transition-all duration-300 border border-blue-400/30 text-xs">
+                            Edit
+                        </button>
+                        <button onclick="showDeleteModal('${toolName}', '${escapeHtml(cmd.command)}')"
+                                class="flex-1 bg-red-500/20 hover:bg-red-500/30 text-red-400 font-bold py-2 px-3 rounded-lg transition-all duration-300 border border-red-400/30 text-xs">
+                            Delete
+                        </button>
+                    </div>
+                `;
+                commandsGrid.appendChild(commandCard);
+            });
+        }
+
+        // Update stats
+        document.getElementById('toolCount').textContent = totalTools;
+        document.getElementById('commandCount').textContent = totalCommands;
+        document.querySelector('.admin-panel:nth-child(3) .text-2xl').textContent = totalTools; // Update categories count
+
+    } catch (err) {
+        console.error("Error fetching commands:", err);
+        alert("Error loading commands. Please try again or check server logs.");
+        // Potentially redirect to login or show an error state
     }
 }
 
+function toggleToolSection(headerElement) {
+    const commandsGrid = headerElement.nextElementSibling;
+    const toggleIcon = headerElement.querySelector('[data-toggle-icon="true"]');
+    commandsGrid.classList.toggle('hidden');
+    if (commandsGrid.classList.contains('hidden')) {
+        toggleIcon.style.transform = 'rotate(0deg)';
+    } else {
+        toggleIcon.style.transform = 'rotate(180deg)';
+    }
+}
+
+// Add Command Functions
+function showAddModal() {
+    document.getElementById("addToolInput").value = '';
+    document.getElementById("addCommandInput").value = '';
+    document.getElementById("addDescriptionInput").value = '';
+    document.getElementById("addCommandModal").classList.remove("hidden");
+}
+
+function hideAddModal() {
+    document.getElementById("addCommandModal").classList.add("hidden");
+}
+
 async function addCommand() {
-    const tool = document.getElementById("toolInput").value;
-    const command = document.getElementById("commandInput").value;
-    const description = document.getElementById("descriptionInput").value;
+    const tool = document.getElementById("addToolInput").value.trim();
+    const command = document.getElementById("addCommandInput").value.trim();
+    const description = document.getElementById("addDescriptionInput").value.trim();
+
+    if (!tool || !command || !description) {
+        alert("All fields are required!");
+        return;
+    }
 
     const res = await fetch("/admin/api/command", {
         method: "POST",
@@ -269,40 +380,96 @@ async function addCommand() {
     alert(result.message);
 
     if (result.success) {
-        fetchCommands(); // refresh view
+        hideAddModal();
+        fetchCommandsAndRender(); // refresh view and stats
     }
 }
-function hideAddModal() {
-    document.getElementById("addCommandModal").classList.add("hidden");
+
+// Edit Command Functions
+function showEditModal(tool, command, description) {
+    document.getElementById("editToolInput").value = tool;
+    document.getElementById("editOriginalTool").value = tool; // Store original tool
+    document.getElementById("editCommandInput").value = command;
+    document.getElementById("editOriginalCommand").value = command; // Store original command
+    document.getElementById("editDescriptionInput").value = description;
+    document.getElementById("editCommandModal").classList.remove("hidden");
 }
 
-async function fetchCommands() {
-    try {
-        const res = await fetch("/admin/api/tools");
-        if (!res.ok) throw new Error("Not authorized or API failed.");
-        const tools = await res.json();
+function hideEditModal() {
+    document.getElementById("editCommandModal").classList.add("hidden");
+}
 
-        const commandsContainer = document.getElementById("commandsList");
-        commandsContainer.innerHTML = '';
+async function updateCommand() {
+    const tool = document.getElementById("editToolInput").value; // Tool name (unchanged)
+    const oldCommand = document.getElementById("editOriginalCommand").value; // Original command value
+    const newCommand = document.getElementById("editCommandInput").value.trim(); // New command value
+    const newDescription = document.getElementById("editDescriptionInput").value.trim(); // New description value
 
-        for (const tool of tools) {
-            const resCmds = await fetch(`/admin/api/commands/${tool}`);
-            const commands = await resCmds.json();
-
-            commands.forEach(cmd => {
-                const el = document.createElement("div");
-                el.classList.add("command-card", "p-4", "rounded-lg", "mb-4", "text-white");
-                el.innerHTML = `
-                    <h3 class="font-bold text-lg">${tool}</h3>
-                    <p class="text-sm font-mono text-gray-300">${cmd.command}</p>
-                    <p class="text-xs text-gray-400">${cmd.description}</p>
-                `;
-                commandsContainer.appendChild(el);
-            });
-        }
-    } catch (err) {
-        console.error("Error fetching commands:", err);
+    if (!tool || !oldCommand || !newCommand || !newDescription) {
+        alert("All fields are required!");
+        return;
     }
+
+    const res = await fetch("/admin/api/command", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            tool: tool,
+            old_command: oldCommand, // Pass the original command to find it on the backend
+            new_command: newCommand,
+            new_description: newDescription
+        })
+    });
+
+    const result = await res.json();
+    alert(result.message);
+
+    if (result.success) {
+        hideEditModal();
+        fetchCommandsAndRender(); // refresh view and stats
+    }
+}
+
+// Delete Command Functions
+function showDeleteModal(tool, command) {
+    document.getElementById("deleteToolName").textContent = tool;
+    document.getElementById("deleteCommandName").textContent = command;
+    document.getElementById("deleteToolHidden").value = tool;
+    document.getElementById("deleteCommandHidden").value = command;
+    document.getElementById("deleteConfirmModal").classList.remove("hidden");
+}
+
+function hideDeleteModal() {
+    document.getElementById("deleteConfirmModal").classList.add("hidden");
+}
+
+async function deleteCommand() {
+    const tool = document.getElementById("deleteToolHidden").value;
+    const command = document.getElementById("deleteCommandHidden").value;
+
+    const res = await fetch("/admin/api/command", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ tool, command })
+    });
+
+    const result = await res.json();
+    alert(result.message);
+
+    if (result.success) {
+        hideDeleteModal();
+        fetchCommandsAndRender(); // refresh view and stats
+    }
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 </script>
 </body>
