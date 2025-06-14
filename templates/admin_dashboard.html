@@ -166,9 +166,144 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="admin-panel rounded-xl p-6">
-                    <div class="flex items-center">
-                        <div class="bg-green-400/20 p-3 rounded-lg">
-                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M
+<div class="admin-panel rounded-xl p-6">
+    <div class="flex items-center">
+        <div class="bg-green-400/20 p-3 rounded-lg">
+            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c1.104 0 2-.672 2-1.5S13.104 5 12 5s-2 .672-2 1.5S10.896 8 12 8zm0 2c-1.657 0-3 1.343-3 3v1h6v-1c0-1.657-1.343-3-3-3zm0 10c4.418 0 8-3.582 8-8S16.418 4 12 4 4 7.582 4 12s3.582 8 8 8z" />
+            </svg>
+        </div>
+        <div class="ml-4">
+            <p class="text-sm font-mono text-gray-400">CATEGORIES</p>
+            <p class="text-2xl font-bold text-white">
+                {% set cat_total = commands.keys()|length %}
+                {{ cat_total }}
+            </p>
+        </div>
+    </div>
+</div>
+            </div>
+
+            <!-- Commands List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="commandsList">
+                <!-- Commands will be dynamically loaded here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Command Modal -->
+    <div id="addCommandModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="modal-content bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-xl font-bold text-white mb-4">Add New Command</h2>
+            <form id="addCommandForm">
+                <div class="mb-4">
+                    <label for="toolInput" class="block text-sm font-medium text-gray-300">Tool Name</label>
+                    <input type="text" id="toolInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white" required>
+                </div>
+                <div class="mb-4">
+                    <label for="commandInput" class="block text-sm font-medium text-gray-300">Command</label>
+                    <input type="text" id="commandInput" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white" required>
+                </div>
+                <div class="mb-4">
+                    <label for="descriptionInput" class="block text-sm font-medium text-gray-300">Description</label>
+                    <textarea id="descriptionInput" rows="3" class="mt-1 block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:ring-teal-400 focus:border-teal-400 text-white"></textarea>
+                </div>
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="hideAddModal()" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Cancel</button>
+                    <button type="button" id="addCommandBtn" class="bg-gradient-to-r from-teal-400 to-red-400 hover:from-teal-500 hover:to-red-500 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300">Add Command</button>
+                </div>
+            </form>
+
+        </div>
+        <button onclick="hideAddModal()" class="absolute top-2 right-2 text-gray-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    fetchCommands();
+
+    document.getElementById("addCommandBtn").addEventListener("click", addCommand);
+});
+
+async function fetchCommands() {
+    const res = await fetch("/admin/api/tools");
+    const tools = await res.json();
+
+    const commandsContainer = document.getElementById("commandsList");
+    commandsContainer.innerHTML = '';
+
+    for (const tool of tools) {
+        const resCmds = await fetch(`/admin/api/commands/${tool}`);
+        const commands = await resCmds.json();
+
+        commands.forEach(cmd => {
+            const el = document.createElement("div");
+            el.classList.add("command-card", "p-4", "rounded-lg", "mb-4", "text-white");
+            el.innerHTML = `
+                <h3 class="font-bold text-lg">${tool}</h3>
+                <p class="text-sm font-mono text-gray-300">${cmd.command}</p>
+                <p class="text-xs text-gray-400">${cmd.description}</p>
+            `;
+            commandsContainer.appendChild(el);
+        });
+    }
+}
+
+async function addCommand() {
+    const tool = document.getElementById("toolInput").value;
+    const command = document.getElementById("commandInput").value;
+    const description = document.getElementById("descriptionInput").value;
+
+    const res = await fetch("/admin/api/command", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ tool, command, description })
+    });
+
+    const result = await res.json();
+    alert(result.message);
+
+    if (result.success) {
+        fetchCommands(); // refresh view
+    }
+}
+function hideAddModal() {
+    document.getElementById("addCommandModal").classList.add("hidden");
+}
+
+async function fetchCommands() {
+    try {
+        const res = await fetch("/admin/api/tools");
+        if (!res.ok) throw new Error("Not authorized or API failed.");
+        const tools = await res.json();
+
+        const commandsContainer = document.getElementById("commandsList");
+        commandsContainer.innerHTML = '';
+
+        for (const tool of tools) {
+            const resCmds = await fetch(`/admin/api/commands/${tool}`);
+            const commands = await resCmds.json();
+
+            commands.forEach(cmd => {
+                const el = document.createElement("div");
+                el.classList.add("command-card", "p-4", "rounded-lg", "mb-4", "text-white");
+                el.innerHTML = `
+                    <h3 class="font-bold text-lg">${tool}</h3>
+                    <p class="text-sm font-mono text-gray-300">${cmd.command}</p>
+                    <p class="text-xs text-gray-400">${cmd.description}</p>
+                `;
+                commandsContainer.appendChild(el);
+            });
+        }
+    } catch (err) {
+        console.error("Error fetching commands:", err);
+    }
+}
+</script>
+</body>
+</html>
