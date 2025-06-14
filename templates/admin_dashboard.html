@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ForgotCMD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-red': '#f87171',
+                        'primary-teal': '#4dd0e1',
+                        'dark-red': '#7f1d1d',
+                        'dark-teal': '#0f766e',
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'Courier New', 'monospace'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'glow-pulse': 'glow-pulse 2s ease-in-out infinite alternate',
+                    },
+                    boxShadow: {
+                        'neon-red': '0 0 5px #f87171, 0 0 10px #f87171, 0 0 20px #f87171',
+                        'neon-teal': '0 0 5px #4dd0e1, 0 0 10px #4dd0e1, 0 0 20px #4dd0e1',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes glow-pulse {
+            0% { 
+                box-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
+            }
+            100% { 
+                box-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
+            }
+        }
+        
+        body {
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(248, 113, 113, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(77, 208, 225, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #0a0000 25%, #000000 50%, #000a0a 75%, #000000 100%);
+            min-height: 100vh;
+        }
+        
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(248, 113, 113, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(248, 113, 113, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .admin-panel {
+            background: linear-gradient(135deg, 
+                rgba(248, 113, 113, 0.1) 0%, 
+                rgba(0, 0, 0, 0.9) 25%, 
+                rgba(77, 208, 225, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #f87171, #4dd0e1, #f87171) 1;
+        }
+
+        .command-card {
+            background: linear-gradient(135deg, 
+                rgba(15, 0, 0, 0.95) 0%, 
+                rgba(0, 15, 15, 0.9) 50%, 
+                rgba(15, 0, 0, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(248, 113, 113, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .command-card:hover {
+            border-color: #f87171;
+            box-shadow: 0 0 20px rgba(248, 113, 113, 0.3);
+        }
+
+        .modal {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, 
+                rgba(248, 113, 113, 0.1) 0%, 
+                rgba(0, 0, 0, 0.95) 25%, 
+                rgba(77, 208, 225, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #f87171, #4dd0e1, #f87171) 1;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <div class="cyber-grid min-h-screen">
+        <!-- Header -->
+        <header class="bg-black/80 backdrop-blur-sm border-b border-red-400/30">
+            <div class="max-w-7xl mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <h1 class="text-2xl font-bold">
+                            <span class="text-red-400 font-mono">Forgot</span><span class="text-teal-400 font-mono">CMD</span>
+                            <span class="text-gray-400 font-mono text-lg ml-2">Admin</span>
+                        </h1>
+                        <div class="h-6 w-px bg-gray-700"></div>
+                        <span class="text-gray-400 text-sm font-mono">SYSTEM_CONTROL.exe</span>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button 
+                            onclick="showAddModal()" 
+                            class="bg-gradient-to-r from-teal-400 to-red-400 hover:from-teal-500 hover:to-red-500 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 hover:shadow-neon-teal transform hover:scale-105 active:scale-95 font-mono text-sm"
+                        >
+                            + ADD COMMAND
+                        </button>
+                        <a 
+                            href="{{ url_for('admin_logout') }}" 
+                            class="bg-red-400/20 hover:bg-red-400/30 text-red-400 font-bold py-2 px-4 rounded-lg transition-all duration-300 border border-red-400/30 hover:border-red-400 font-mono text-sm"
+                        >
+                            LOGOUT
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-6 py-8">
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="admin-panel rounded-xl p-6">
+                    <div class="flex items-center">
+                        <div class="bg-red-400/20 p-3 rounded-lg">
+                            <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-mono text-gray-400">TOOLS</p>
+                            <p class="text-2xl font-bold text-white" id="toolCount">{{ commands|length }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-panel rounded-xl p-6">
+                    <div class="flex items-center">
+                        <div class="bg-teal-400/20 p-3 rounded-lg">
+                            <svg class="w-8 h-8 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-mono text-gray-400">COMMANDS</p>
+                            <p class="text-2xl font-bold text-white" id="commandCount">
+                                {% set total = 0 %}
+                                {% for tool, cmds in commands.items() %}
+                                    {% set total = total + cmds|length %}
+                                {% endfor %}
+                                {{ total }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="admin-panel rounded-xl p-6">
+                    <div class="flex items-center">
+                        <div class="bg-green-400/20 p-3 rounded-lg">
+                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M

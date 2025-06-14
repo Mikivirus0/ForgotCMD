@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - ForgotCMD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-red': '#f87171',
+                        'primary-teal': '#4dd0e1',
+                        'dark-red': '#7f1d1d',
+                        'dark-teal': '#0f766e',
+                    },
+                    fontFamily: {
+                        'mono': ['JetBrains Mono', 'Courier New', 'monospace'],
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'glow-pulse': 'glow-pulse 2s ease-in-out infinite alternate',
+                        'matrix-rain': 'matrix-rain 20s linear infinite',
+                    },
+                    boxShadow: {
+                        'neon-red': '0 0 5px #f87171, 0 0 10px #f87171, 0 0 20px #f87171',
+                        'neon-teal': '0 0 5px #4dd0e1, 0 0 10px #4dd0e1, 0 0 20px #4dd0e1',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes glow-pulse {
+            0% { 
+                box-shadow: 0 0 5px #f87171, 0 0 10px #f87171;
+            }
+            100% { 
+                box-shadow: 0 0 10px #f87171, 0 0 20px #f87171, 0 0 30px #f87171;
+            }
+        }
+
+        @keyframes matrix-rain {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        body {
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(248, 113, 113, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(77, 208, 225, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #0a0000 25%, #000000 50%, #000a0a 75%, #000000 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .cyber-grid {
+            background-image: 
+                linear-gradient(rgba(248, 113, 113, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(248, 113, 113, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .matrix-char {
+            position: absolute;
+            color: #00ff41;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            opacity: 0.7;
+            animation: matrix-rain linear infinite;
+        }
+        
+        .login-container {
+            background: linear-gradient(135deg, 
+                rgba(248, 113, 113, 0.1) 0%, 
+                rgba(0, 0, 0, 0.9) 25%, 
+                rgba(77, 208, 225, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #f87171, #4dd0e1, #f87171) 1;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <!-- Matrix Rain Effect -->
+    <div id="matrix-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+    <div class="cyber-grid min-h-screen flex items-center justify-center px-6 relative z-10">
+        <div class="login-container rounded-2xl p-8 shadow-2xl max-w-md w-full">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="flex items-center justify-center mb-4">
+                    <div class="w-16 h-16 bg-gradient-to-br from-red-400 to-teal-400 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h1 class="text-3xl font-bold mb-2">
+                    <span class="text-red-400 font-mono">Admin</span>
+                    <span class="text-teal-400 font-mono">Access</span>
+                </h1>
+                <p class="text-gray-400 text-sm font-mono">RESTRICTED_AREA.exe</p>
+            </div>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="mb-4 p-4 rounded-xl border {% if category == 'error' %}border-red-400 bg-red-400/10 text-red-400{% else %}border-teal-400 bg-teal-400/10 text-teal-400{% endif %}">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    {% if category == 'error' %}
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    {% else %}
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    {% endif %}
+                                </svg>
+                                {{ message }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Login Form -->
+            <form method="POST" class="space-y-6">
+                <div>
+                    <label for="username" class="block text-red-400 text-sm font-mono mb-2">USERNAME</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        class="w-full bg-black text-teal-400 px-4 py-3 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono transition-all duration-300 focus:shadow-neon-red" 
+                        placeholder="root"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+                
+                <div>
+                    <label for="password" class="block text-red-400 text-sm font-mono mb-2">PASSWORD</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        class="w-full bg-black text-teal-400 px-4 py-3 rounded-xl border-2 border-red-400/30 focus:border-red-400 outline-none placeholder-gray-600 font-mono transition-all duration-300 focus:shadow-neon-red" 
+                        placeholder="••••••••"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full bg-gradient-to-r from-red-400 to-teal-400 hover:from-red-500 hover:to-teal-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 hover:shadow-neon-red transform hover:scale-105 active:scale-95 font-mono tracking-wider"
+                >
+                    <span class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                        </svg>
+                        <span>ACCESS_GRANTED</span>
+                    </span>
+                </button>
+            </form>
+
+            <!-- Back to Home -->
+            <div class="mt-6 text-center">
+                <a href="{{ url_for('index') }}" class="text-gray-400 hover:text-teal-400 text-sm font-mono transition-colors duration-300">
+                    ← Back to ForgotCMD
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        function createMatrixRain() {
+            const container = document.getElementById('matrix-container');
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.left = Math.random() * 100 + 'vw';
+                    char.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                    char.style.animationDelay = Math.random() * 5 + 's';
+                    container.appendChild(char);
+                    
+                    // Remove element after animation
+                    setTimeout(() => {
+                        if (char.parentNode) {
+                            char.parentNode.removeChild(char);
+                        }
+                    }, 25000);
+                }, i * 200);
+            }
+        }
+
+        // Start matrix effect
+        createMatrixRain();
+        setInterval(createMatrixRain, 10000);
+
+        // Focus on username field
+        window.addEventListener('load', () => {
+            document.getElementById('username').focus();
+        });
+
+        // Handle Enter key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const form = document.querySelector('form');
+                if (form) {
+                    form.submit();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
